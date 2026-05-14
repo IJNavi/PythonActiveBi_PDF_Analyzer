@@ -1,0 +1,29 @@
+# Arquivos de ambiente (contém senhas/chaves)
+.env
+.env.local
+.env.production
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Cache do RAG (pode ser grande)
+rag_cache/
+chroma_db/
+
+# Arquivos temporários
+*.log
+*.tmp
+
+# Pasta do executável
+dist/
+build/
+*.spec
+
+# IDE
+.vscode/
+.idea/
+
+# Arquivos de resultado
+resultado_*.json

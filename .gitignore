@@ -27,3 +27,7 @@ build/
 
 # Arquivos de resultado
 resultado_*.json
+
+
+# Ignorar outros arquivos temporários ou de configuração
+.venv/

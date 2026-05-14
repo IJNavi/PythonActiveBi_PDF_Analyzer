@@ -44,6 +44,23 @@ O projeto utiliza o modelo **GPT-4o Mini** da OpenAI pelos seguintes motivos:
 3. Coloque na Área de Trabalho, ou na pasta que preferir.
 4. Pode criar um atalho: clique com o botão direito do mouse sobre o executável → "Criar atalho"
 
+## 🔑 Configurando a chave da API (para o executável)
+
+O programa precisa de um arquivo de configuração chamado `.env` (sem extensão) no mesmo diretório do executável. Siga os passos:
+
+1. Abra o Bloco de Notas.
+2. Cole as linhas abaixo, substituindo `sk-sua-chave-aqui` pela sua chave real:
+
+  OPENAI_API_KEY=sk-sua-chave-aqui
+  OPENAI_MODEL=gpt-4o-mini
+
+3. Salve o arquivo: clique em "Arquivo" → "Salvar como".
+4. No campo "Salvar como tipo", selecione **"Todos os arquivos (*.*)"**.
+5. No campo "Nome do arquivo", digite exatamente: `.env`
+6. Escolha a mesma pasta onde está o `ActiveIA.exe` e clique em "Salvar".
+
+Pronto. Na próxima execução, o programa usará sua chave. Se precisar trocar a chave, basta editar o arquivo `.env` com o Bloco de Notas novamente.
+
 ### Opção 2: Clonar o Repositório (Para desenvolvedores)
 ```bash
 git clone https://github.com/[SEU-USUARIO]/analisador-pdf-ia.git

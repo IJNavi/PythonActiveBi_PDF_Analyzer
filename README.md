@@ -53,6 +53,7 @@ O programa precisa de um arquivo de configuração chamado `.env` (sem extensão
 
   OPENAI_API_KEY=sk-sua-chave-aqui
   OPENAI_MODEL=gpt-4o-mini
+  TIKTOKEN_CACHE_DIR=""
 
 3. Salve o arquivo: clique em "Arquivo" → "Salvar como".
 4. No campo "Salvar como tipo", selecione **"Todos os arquivos (*.*)"**.

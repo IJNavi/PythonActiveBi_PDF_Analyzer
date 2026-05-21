@@ -720,11 +720,17 @@ class DocumentAnalyzerGUI:
         threading.Thread(target=analyze, daemon=True).start()
     
     def display_result(self, result, elapsed_time):
+        """Exibe resultado na interface"""
         self.progress.stop()
         self.progress.pack_forget()
         self.analyze_btn.config(state='normal')
+        
+        # Exibe texto formatado
         self.response_text.delete("1.0", tk.END)
+        
+        # Formatação básica de Markdown
         text = result['text']
+        
         lines = text.split('\n')
         for line in lines:
             if line.startswith('## '):
@@ -734,11 +740,13 @@ class DocumentAnalyzerGUI:
             else:
                 self.response_text.insert(tk.END, line + '\n')
         
+        # Adiciona sugestões
         self.response_text.insert(tk.END, "\n" + "="*50 + "\n")
         self.response_text.insert(tk.END, "💡 PERGUNTAS SUGERIDAS:\n\n", "bold")
         for i, suggestion in enumerate(result['suggestions'], 1):
             self.response_text.insert(tk.END, f"{i}. {suggestion}\n")
         
+        # Atualiza informações
         metadata = result.get('_metadata', {})
         self.cost_label.config(text=f"💰 Custo: ${metadata.get('cost_usd', 0):.6f}")
         self.time_label.config(text=f"⏱️ Tempo: {elapsed_time:.1f}s")
@@ -746,10 +754,21 @@ class DocumentAnalyzerGUI:
             text=f"🔢 Tokens: {metadata.get('input_tokens', 0)} in / {metadata.get('output_tokens', 0)} out"
         )
         
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_file = f"resultado_{timestamp}.json"
+        # Salva resultado em pasta organizada por data e hora (NOVO)
+        from pathlib import Path
+        from datetime import datetime
+        
+        base_dir = Path(__file__).parent / "resultados"
+        data_str = datetime.now().strftime("%Y-%m-%d")
+        hora_str = datetime.now().strftime("%H")
+        resultados_dir = base_dir / data_str / hora_str
+        resultados_dir.mkdir(parents=True, exist_ok=True)
+        
+        timestamp = datetime.now().strftime("%H%M%S")
+        output_file = resultados_dir / f"resultado_{timestamp}.json"
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
+        
         self.response_text.insert(tk.END, f"\n\n📁 Resultado salvo em: {output_file}")
     
     def on_analysis_error(self, error_msg):

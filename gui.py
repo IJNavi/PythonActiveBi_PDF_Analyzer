@@ -10,11 +10,8 @@ import threading
 import json
 from datetime import datetime
 from PIL import Image, ImageTk
-import requests
-from io import BytesIO
 import webbrowser
 import os
-
 from src.rag_engine import RAGEngine
 from src.ia_client import IAClient
 from src.response_controller import ResponseController, ResponseLevel
@@ -235,29 +232,21 @@ class WelcomeScreen:
         )
         footer.pack(pady=(20, 0))
     
+    
     def load_logo(self, container):
-        logo_image = None
+        """Carrega a logo da Active BI a partir do arquivo local."""
         try:
-            url = "https://www.activebi.com.br/midias/imagens/active-bi-branco.16782989371.webp"
-            response = requests.get(url, timeout=10)
-            img = Image.open(BytesIO(response.content))
-            img.thumbnail((200, 80), Image.Resampling.LANCZOS)
-            logo_image = ImageTk.PhotoImage(img)
+            local_path = Path(__file__).parent / "src" / "LogoActiveBI.PNG"
+            if local_path.exists():
+                img = Image.open(local_path)
+                img.thumbnail((200, 80), Image.Resampling.LANCZOS)
+                self.logo_img = ImageTk.PhotoImage(img)
+                logo_label = tk.Label(container, image=self.logo_img, bg=ActiveBIStyle.PRIMARY_BLUE)
+                logo_label.pack(pady=(10, 10))
+            else:
+                raise FileNotFoundError("Logo não encontrada")
         except Exception:
-            try:
-                local_path = Path(__file__).parent / "src" / "LogoActiveBI.PNG"
-                if local_path.exists():
-                    img = Image.open(local_path)
-                    img.thumbnail((200, 80), Image.Resampling.LANCZOS)
-                    logo_image = ImageTk.PhotoImage(img)
-            except Exception:
-                pass
-
-        if logo_image:
-            self.logo_img = logo_image
-            logo_label = tk.Label(container, image=self.logo_img, bg=ActiveBIStyle.PRIMARY_BLUE)
-            logo_label.pack(pady=(10, 10))
-        else:
+        # Fallback para texto
             text_logo = tk.Label(
                 container,
                 text="ACTIVE BI",
@@ -274,7 +263,6 @@ class WelcomeScreen:
                 bg=ActiveBIStyle.PRIMARY_BLUE
             )
             sub_logo.pack(pady=(0, 10))
-
 
 class HeaderFrame(tk.Frame):
     def __init__(self, parent):
@@ -307,30 +295,22 @@ class HeaderFrame(tk.Frame):
         contact_btn.bind("<Enter>", on_enter)
         contact_btn.bind("<Leave>", on_leave)
         contact_btn.pack(side=tk.RIGHT)
+         
     
     def load_logo(self, container):
-        logo_image = None
+        #Carrega a logo da Active BI a partir do arquivo local.
         try:
-            url = "https://www.activebi.com.br/midias/imagens/active-bi-branco.16782989371.webp"
-            response = requests.get(url, timeout=10)
-            img = Image.open(BytesIO(response.content))
-            img.thumbnail((150, 50), Image.Resampling.LANCZOS)
-            logo_image = ImageTk.PhotoImage(img)
+            local_path = Path(__file__).parent / "src" / "LogoActiveBI.PNG"
+            if local_path.exists():
+               img = Image.open(local_path)
+               img.thumbnail((150, 50), Image.Resampling.LANCZOS)
+               self.logo_img = ImageTk.PhotoImage(img)
+               logo_label = tk.Label(container, image=self.logo_img, bg=ActiveBIStyle.PRIMARY_BLUE)
+               logo_label.pack(side=tk.LEFT)
+            else:
+               raise FileNotFoundError("Logo não encontrada")
         except Exception:
-            try:
-                local_path = Path(__file__).parent / "src" / "LogoActiveBI.PNG"
-                if local_path.exists():
-                    img = Image.open(local_path)
-                    img.thumbnail((150, 50), Image.Resampling.LANCZOS)
-                    logo_image = ImageTk.PhotoImage(img)
-            except Exception:
-                pass
-
-        if logo_image:
-            self.logo_img = logo_image
-            logo_label = tk.Label(container, image=self.logo_img, bg=ActiveBIStyle.PRIMARY_BLUE)
-            logo_label.pack(side=tk.LEFT)
-        else:
+            # Fallback para texto
             logo_text = tk.Label(
                 container,
                 text="ACTIVE BI",
@@ -339,6 +319,8 @@ class HeaderFrame(tk.Frame):
                 bg=ActiveBIStyle.PRIMARY_BLUE
             )
             logo_text.pack(side=tk.LEFT)
+    
+    #ATÉ AQUI EM CIMA
     
     def open_contact(self):
         webbrowser.open("https://www.activebi.com.br/fale-conosco")

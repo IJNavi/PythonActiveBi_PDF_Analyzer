@@ -97,28 +97,26 @@ class ActiveBIStyle:
 
 
 class WelcomeScreen:
-    """Tela de boas-vindas com instruções para criar atalho"""
-    
     def __init__(self, parent, on_complete):
         self.parent = parent
         self.on_complete = on_complete
         self.frame = ttk.Frame(parent)
         self.frame.pack(fill=tk.BOTH, expand=True)
         self.create_widgets()
-    
+
     def create_widgets(self):
-        # Barra azul superior
-        top_bar = tk.Frame(self.frame, bg=ActiveBIStyle.PRIMARY_BLUE, height=100)
+        # Barra azul superior (altura reduzida)
+        top_bar = tk.Frame(self.frame, bg=ActiveBIStyle.PRIMARY_BLUE, height=80)
         top_bar.pack(fill=tk.X, side=tk.TOP)
-        
+
         logo_container = tk.Frame(top_bar, bg=ActiveBIStyle.PRIMARY_BLUE)
-        logo_container.pack(expand=True, pady=15)
+        logo_container.pack(expand=True, pady=10)
         self.load_logo(logo_container)
-        
-        # Conteúdo abaixo da barra
+
+        # Container principal com espaçamento reduzido
         main_container = ttk.Frame(self.frame)
-        main_container.pack(fill=tk.BOTH, expand=True, padx=40, pady=40)
-        
+        main_container.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
         title_label = tk.Label(
             main_container,
             text="Bem-vindo ao Analisador de Documentos com IA",
@@ -126,8 +124,8 @@ class WelcomeScreen:
             fg=ActiveBIStyle.PRIMARY_BLUE,
             bg=ActiveBIStyle.WHITE
         )
-        title_label.pack(pady=(20, 10))
-        
+        title_label.pack(pady=(10, 5))
+
         subtitle_label = tk.Label(
             main_container,
             text="Active IA - Inteligência Adaptada ao seu Negócio",
@@ -135,16 +133,16 @@ class WelcomeScreen:
             fg=ActiveBIStyle.SECONDARY_BLUE,
             bg=ActiveBIStyle.WHITE
         )
-        subtitle_label.pack(pady=(0, 30))
-        
+        subtitle_label.pack(pady=(0, 20))
+
         instructions_frame = tk.Frame(
             main_container,
             bg=ActiveBIStyle.BG_LIGHT,
             relief=tk.RIDGE,
             bd=1
         )
-        instructions_frame.pack(fill=tk.BOTH, expand=True, pady=20)
-        
+        instructions_frame.pack(fill=tk.BOTH, expand=True, pady=10)
+
         inst_title = tk.Label(
             instructions_frame,
             text="📌 Como criar um atalho para facilitar o acesso:",
@@ -152,38 +150,38 @@ class WelcomeScreen:
             fg=ActiveBIStyle.PRIMARY_BLUE,
             bg=ActiveBIStyle.BG_LIGHT
         )
-        inst_title.pack(pady=(20, 15), padx=20, anchor=tk.W)
-        
+        inst_title.pack(pady=(15, 10), padx=20, anchor=tk.W)
+
         step1 = tk.Label(
             instructions_frame,
-            text="1️⃣ Clique com o botão DIREITO do mouse no arquivo executável (.exe)",
+            text="1 Clique com o botão DIREITO do mouse no arquivo Iniciar.bat",
             font=ActiveBIStyle.FONT_BODY,
             fg=ActiveBIStyle.PRIMARY_BLUE,
             bg=ActiveBIStyle.BG_LIGHT
         )
-        step1.pack(pady=5, padx=30, anchor=tk.W)
-        
+        step1.pack(pady=3, padx=30, anchor=tk.W)
+
         step2 = tk.Label(
             instructions_frame,
-            text="2️⃣ No menu que abrir, selecione 'Criar atalho'",
+            text="2 No menu que abrir, selecione 'Criar atalho'",
             font=ActiveBIStyle.FONT_BODY,
             fg=ActiveBIStyle.PRIMARY_BLUE,
             bg=ActiveBIStyle.BG_LIGHT
         )
-        step2.pack(pady=5, padx=30, anchor=tk.W)
-        
+        step2.pack(pady=3, padx=30, anchor=tk.W)
+
         step3 = tk.Label(
             instructions_frame,
-            text="3️⃣ Arraste o atalho criado para a Área de Trabalho ou Menu Iniciar",
+            text="3 Arraste o atalho criado para a Área de Trabalho ou Menu Iniciar",
             font=ActiveBIStyle.FONT_BODY,
             fg=ActiveBIStyle.PRIMARY_BLUE,
             bg=ActiveBIStyle.BG_LIGHT
         )
-        step3.pack(pady=5, padx=30, anchor=tk.W)
-        
+        step3.pack(pady=3, padx=30, anchor=tk.W)
+
         tip_frame = tk.Frame(instructions_frame, bg=ActiveBIStyle.BG_LIGHT)
-        tip_frame.pack(pady=(20, 20), padx=30, fill=tk.X)
-        
+        tip_frame.pack(pady=(15, 15), padx=30, fill=tk.X)
+
         tip_icon = tk.Label(
             tip_frame,
             text="💡",
@@ -192,7 +190,7 @@ class WelcomeScreen:
             bg=ActiveBIStyle.BG_LIGHT
         )
         tip_icon.pack(side=tk.LEFT, padx=(0, 10))
-        
+
         tip_text = tk.Label(
             tip_frame,
             text="Dica: Você pode renomear o atalho para 'Active IA' e alterar o ícone nas propriedades!",
@@ -201,7 +199,22 @@ class WelcomeScreen:
             bg=ActiveBIStyle.BG_LIGHT
         )
         tip_text.pack(side=tk.LEFT)
-        
+
+        # Checkbox "Não mostrar novamente"
+        self.skip_var = tk.BooleanVar(value=False)
+        skip_check = tk.Checkbutton(
+            main_container,
+            text="Não mostrar esta tela novamente",
+            variable=self.skip_var,
+            font=ActiveBIStyle.FONT_BODY,
+            fg=ActiveBIStyle.PRIMARY_BLUE,
+            bg=ActiveBIStyle.WHITE,
+            selectcolor=ActiveBIStyle.WHITE,
+            activebackground=ActiveBIStyle.WHITE
+        )
+        skip_check.pack(pady=(10, 5))
+
+        # Botão Entendido
         understood_btn = tk.Button(
             main_container,
             text="ENTENDIDO, VAMOS COMEÇAR →",
@@ -214,15 +227,15 @@ class WelcomeScreen:
             cursor="hand2",
             command=self.on_complete
         )
-        
+
         def on_enter(e):
             understood_btn.config(bg=ActiveBIStyle.ORANGE_HOVER)
         def on_leave(e):
             understood_btn.config(bg=ActiveBIStyle.ORANGE)
         understood_btn.bind("<Enter>", on_enter)
         understood_btn.bind("<Leave>", on_leave)
-        understood_btn.pack(pady=30)
-        
+        understood_btn.pack(pady=15)
+
         footer = tk.Label(
             main_container,
             text="© 2024 Active BI - Consultoria Especializada em BI",
@@ -230,11 +243,10 @@ class WelcomeScreen:
             fg=ActiveBIStyle.GRAY_LIGHT,
             bg=ActiveBIStyle.WHITE
         )
-        footer.pack(pady=(20, 0))
-    
-    
+        footer.pack(pady=(10, 0))
+
     def load_logo(self, container):
-        """Carrega a logo da Active BI a partir do arquivo local."""
+        """Carrega a logo local (sem internet)"""
         try:
             local_path = Path(__file__).parent / "src" / "LogoActiveBI.PNG"
             if local_path.exists():
@@ -242,11 +254,10 @@ class WelcomeScreen:
                 img.thumbnail((200, 80), Image.Resampling.LANCZOS)
                 self.logo_img = ImageTk.PhotoImage(img)
                 logo_label = tk.Label(container, image=self.logo_img, bg=ActiveBIStyle.PRIMARY_BLUE)
-                logo_label.pack(pady=(10, 10))
+                logo_label.pack(pady=(5, 5))
             else:
-                raise FileNotFoundError("Logo não encontrada")
+                raise FileNotFoundError
         except Exception:
-        # Fallback para texto
             text_logo = tk.Label(
                 container,
                 text="ACTIVE BI",
@@ -254,7 +265,7 @@ class WelcomeScreen:
                 fg=ActiveBIStyle.WHITE,
                 bg=ActiveBIStyle.PRIMARY_BLUE
             )
-            text_logo.pack(pady=(10, 0))
+            text_logo.pack(pady=(5, 0))
             sub_logo = tk.Label(
                 container,
                 text="BUSINESS INTELLIGENCE",
@@ -262,7 +273,7 @@ class WelcomeScreen:
                 fg=ActiveBIStyle.WHITE,
                 bg=ActiveBIStyle.PRIMARY_BLUE
             )
-            sub_logo.pack(pady=(0, 10))
+            sub_logo.pack(pady=(0, 5))
 
 class HeaderFrame(tk.Frame):
     def __init__(self, parent):
@@ -340,7 +351,13 @@ class DocumentAnalyzerGUI:
         self.cost_calculator = None
         
         self.init_components()
-        self.show_welcome_screen()
+        
+        # Verifica se deve pular a tela de boas-vindas
+        skip_file = Path(__file__).parent / ".skip_welcome"
+        if skip_file.exists():
+            self.create_main_interface()   # vai direto para a interface principal
+        else:
+            self.show_welcome_screen()     # mostra a tela de boas-vindas
     
     def init_components(self):
         try:
@@ -368,7 +385,15 @@ class DocumentAnalyzerGUI:
     def show_welcome_screen(self):
         self.welcome_screen = WelcomeScreen(self.root, self.on_welcome_complete)
     
+    # Pula a tela de boas vindas se a checkbox tiver sido marcada na última execução
     def on_welcome_complete(self):
+        if hasattr(self.welcome_screen, 'skip_var') and self.welcome_screen.skip_var.get():
+            skip_file = Path(__file__).parent / ".skip_welcome"
+            try:
+                skip_file.touch()
+                print(f"Arquivo criado: {skip_file}")  # para debug
+            except Exception as e:
+                print(f"Erro ao criar arquivo: {e}")
         self.welcome_screen.frame.destroy()
         self.create_main_interface()
     

@@ -31,3 +31,4 @@ resultado_*.json
 
 # Ignorar outros arquivos temporários ou de configuração
 .venv/
+.skip_welcome

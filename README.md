@@ -1,7 +1,7 @@
 ```markdown
 # 📊 Active IA - Analisador de Documentos com Inteligência Artificial
 
-Ferramenta desenvolvida para a **Active BI** que permite analistas de negócio fazerem perguntas sobre documentos PDF e obter respostas estruturadas automaticamente, com suporte a diversas línguas.
+Ferramenta desenvolvida para a **Active BI** que permite analistas de negócio fazerem perguntas sobre documentos PDF e obter respostas estruturadas automaticamente, com suporte a **7 idiomas** (português, inglês, espanhol, francês, mandarim, hindi e árabe).
 
 ## 🎯 Motivação da Escolha do Modelo
 
@@ -29,12 +29,13 @@ O projeto utiliza o modelo **GPT-4o Mini** da OpenAI pelos seguintes motivos:
 4. **IA**: Apenas o contexto relevante é enviado para a OpenAI (economia de 95% dos tokens)
 
 ### Regras de Negócio
-- **Idioma inteligente**: Detecta se a pergunta é em português ou inglês e responde no mesmo idioma
+- **Idioma inteligente**: Detecta o idioma da pergunta (entre 7 opções) e responde no mesmo idioma, preservando jargões técnicos em inglês
 - **Três níveis de resposta**:
   - 📝 Conciso: 2 parágrafos para respostas rápidas
   - 📊 Padrão: 1 página A4 (500 palavras)
   - 🔬 Complexo: Análise aprofundada com múltiplas seções
-- **Sugestões automáticas**: Sempre gera 3 perguntas de acompanhamento relevantes
+- **Sugestões automáticas**: Sempre gera 3 perguntas de acompanhamento no mesmo idioma da pergunta
+- **Histórico de análises**: Visualize, copie ou delete resultados anteriores em uma tela dedicada
 
 ## 📦 Como Obter o Projeto
 
@@ -64,8 +65,8 @@ Pronto. Na próxima execução, o programa usará sua chave. Se precisar trocar 
 
 ### Opção 2: Clonar o Repositório (Para desenvolvedores)
 ```bash
-git clone https://github.com/[SEU-USUARIO]/analisador-pdf-ia.git
-cd analisador-pdf-ia
+git clone https://github.com/IJNavi/PythonActiveBI_PDF_Analyzer.git
+cd PythonActiveBI_PDF_Analyzer
 python -m venv .venv
 .venv\Scripts\activate  # No Windows
 pip install -r requirements.txt
@@ -84,18 +85,40 @@ python gui.py
 OPENAI_API_KEY=sua-chave-aqui
 OPENAI_MODEL=gpt-4o-mini
 ```
- - O projeto já vai com um arquivo .env.exemple que é só copiar ou renomear! 
- - NÃO COLOQUE SUA CHAVE DE API NO ARQUIO .env.exemple!! O .gitignore só ignora o .env, 
-   se der push para um repositório online com a chave no .env.exemple você irá expor ela!
+ - O projeto já vem com um arquivo `.env.example` que é só copiar ou renomear! 
+ - **NÃO COLOQUE SUA CHAVE DE API NO ARQUIVO `.env.example`**!! O `.gitignore` só ignora o `.env`, se der push para um repositório online com a chave no `.env.example` você irá expor ela!
+
 ## 🚀 Como Usar
 
 1. Execute o programa (`ActiveIA.exe` ou `python gui.py`)
-2. Clique em "ENTENDIDO" na tela de boas-vindas
-3. Clique em "SELECIONAR" e escolha um arquivo PDF
-4. Digite sua pergunta (ex: "Qual é o resumo deste documento?")
-5. Escolha o nível de detalhamento da resposta
-6. Clique em "ANALISAR DOCUMENTO"
-7. Aguarde alguns segundos e veja a resposta formatada
+2. Na tela de boas-vindas, leia as instruções e marque "Não mostrar esta tela novamente" se desejar pular nas próximas execuções
+3. Clique em "ENTENDIDO" para acessar a tela principal
+4. Clique em "SELECIONAR" e escolha um arquivo PDF
+5. Digite sua pergunta em qualquer um dos 7 idiomas suportados
+6. Escolha o nível de detalhamento da resposta
+7. Clique em "ANALISAR DOCUMENTO"
+8. Aguarde alguns segundos e veja a resposta formatada
+9. Navegue entre as telas usando os botões do cabeçalho:
+   - **ANALISAR**: Volta para a tela de análise
+   - **CACHE**: Abre a pasta de cache do sistema (explorador de arquivos)
+   - **ANÁLISES**: Abre o histórico de resultados para visualizar, copiar ou deletar JSONs anteriores
+   - **CONTATO**: Abre o site da Active BI
+
+## 📂 Organização de Arquivos
+
+### Resultados (pasta `resultados/`)
+Os arquivos JSON são salvos automaticamente na estrutura:
+```
+resultados/YYYY-MM-DD/HH/Nome_do_PDF/resultado_HHMMSS.json
+```
+Um arquivo `LEIA_ME.txt` na raiz explica a organização.
+
+### Cache RAG (pasta `rag_cache/`)
+Os índices são armazenados em:
+```
+rag_cache/Nome_do_PDF/hash_do_conteudo/chroma_db/
+```
+Apenas as 2 versões mais recentes de cada PDF são mantidas automaticamente. Um arquivo `LEIA_ME.txt` explica a estrutura e manutenção.
 
 ## ⚠️ Problemas de Compatibilidade e Soluções
 
@@ -158,11 +181,11 @@ pip install -r requirements.txt
 
 ## 📊 Exemplo de Perguntas
 
-- "Quais são as principais conclusões deste relatório?"
-- "Faça uma análise SWOT da empresa"
-- "Liste os 5 principais riscos mencionados"
-- "Compare os resultados de 2023 com 2024"
-- "What are the key recommendations?"
+- "Quais são as principais conclusões deste relatório?" (português)
+- "Faça uma análise SWOT da empresa" (português com termo inglês)
+- "What are the key recommendations?" (inglês)
+- "¿Cuáles son los riesgos identificados?" (espanhol)
+- "请总结这份文档的主要内容" (mandarim)
 
 ## 💰 Transparência de Custos
 
@@ -182,7 +205,7 @@ O sistema consome recursos locais principalmente durante o primeiro processament
 - **Processador**: uso intensivo por 1-3 minutos no primeiro acesso ao documento
 - **Armazenamento**: 50-200 MB por documento em cache (pasta `rag_cache/`)
 
-Consultas subsequentes são rápidas e leves, devido ao chache construído. Recomenda-se pelo menos 4 GB de RAM livre e 2 GB de espaço em disco.
+Consultas subsequentes são rápidas e leves, devido ao cache construído. Recomenda-se pelo menos 4 GB de RAM livre e 2 GB de espaço em disco.
 
 ## 🐛 Solução de Problemas Adicionais
 
@@ -192,6 +215,7 @@ Consultas subsequentes são rápidas e leves, devido ao chache construído. Reco
 | "Falha ao extrair texto" | O PDF pode ser escaneado (imagem). Use OCR antes. |
 | Programa abre e fecha rápido | Execute pelo terminal para ver a mensagem de erro |
 | Tela branca ou congela | Aguarde o processamento do PDF (pode levar minutos em documentos grandes) |
+| Sugestões vêm em inglês mesmo com pergunta em português | Verifique se o detector de idioma está funcionando (o sistema tenta detectar pela pergunta) |
 
 ## 📝 Licença
 

@@ -2,12 +2,12 @@
 
 import json
 from typing import List
-from openai import OpenAI
+from openai import OpenAI, timeout
 import tiktoken
 
 class IAClient:
-    def __init__(self, api_key: str, model: str = "gpt-4o-mini"):
-        self.client = OpenAI(api_key=api_key)
+    def __init__(self, api_key: str, model: str = "gpt-4o-mini", timeout: float = 60.0):
+        self.client = OpenAI(api_key=api_key, timeout=timeout)
         self.model = model
         self.encoder = tiktoken.encoding_for_model(model)
     

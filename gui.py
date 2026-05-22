@@ -761,14 +761,21 @@ class DocumentAnalyzerGUI:
             text=f"🔢 Tokens: {metadata.get('input_tokens', 0)} in / {metadata.get('output_tokens', 0)} out"
         )
         
-        # Salva resultado em pasta organizada por data e hora (NOVO)
+                # Salva resultado em pasta organizada por data, hora e nome do PDF
         from pathlib import Path
         from datetime import datetime
+        
+        pdf_filename = result['source']  # ex: "documento.pdf"
+        # Sanitiza o nome do arquivo: remove caracteres inválidos e substitui espaços por _
+        invalid_chars = r'[<>:"/\\|?*]'
+        safe_pdf_name = ''.join('_' if c in invalid_chars else c for c in pdf_filename)
+        safe_pdf_name = safe_pdf_name.strip()
+        safe_pdf_name = safe_pdf_name.replace(' ', '_')  # substitui espaços por _
         
         base_dir = Path(__file__).parent / "resultados"
         data_str = datetime.now().strftime("%Y-%m-%d")
         hora_str = datetime.now().strftime("%H")
-        resultados_dir = base_dir / data_str / hora_str
+        resultados_dir = base_dir / data_str / hora_str / safe_pdf_name
         resultados_dir.mkdir(parents=True, exist_ok=True)
         
         timestamp = datetime.now().strftime("%H%M%S")

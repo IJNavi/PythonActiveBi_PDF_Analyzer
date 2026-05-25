@@ -39,7 +39,7 @@ O projeto utiliza o modelo **GPT-4o Mini** da OpenAI pelos seguintes motivos:
 
 ## 📦 Como Obter o Projeto
 
-### Opção 1: Baixar o Executável (Recomendado para usuários leigos em programação)
+### Opção 1 (AINDA NÃO DISPONÍVEL): Baixar o Executável (Recomendado para usuários leigos em programação)
 1. Acesse: https://github.com/IJNavi/PythonActiveBI_PDF_Analyzer/releases
 2. Baixe o arquivo `ActiveIA.exe`
 3. Coloque na Área de Trabalho, ou na pasta que preferir.
@@ -196,6 +196,37 @@ pip install -r requirements.txt
 | Mensal (100 documentos) | - | **~$15 USD** |
 
 > 💡 **Dica**: O RAG local reduz em 95% os tokens enviados para a API!
+
+## 📈 Estimativa de Economia e Valor Agregado
+
+Além da economia direta com o modelo GPT-4o Mini (já detalhada na seção de custos), o **Active IA** entrega benefícios que vão muito além da redução de tokens. A seguir, uma estimativa conservadora do valor gerado pelo sistema em um escritório de médio porte.
+
+### Valor agregado exclusivo do Active IA
+
+- **Extração automática de texto de PDF**: elimina o trabalho manual de abrir cada arquivo, selecionar e copiar trechos.
+- **Organização dos resultados**: pastas estruturadas por data, hora e nome do documento (facilita auditoria, reuso e rastreabilidade).
+- **Geração automática de perguntas de acompanhamento**: ajuda o analista a explorar o documento mais profundamente sem esforço adicional.
+- **Interface gráfica integrada**: três telas (análise, histórico e cache) com botões de navegação que agilizam o fluxo de trabalho.
+
+### Impacto financeiro estimado (valores aproximados)
+
+A análise considerou um cenário típico:  
+- 50 documentos por mês, cada um com 20 páginas.  
+- 3 perguntas por documento → 150 consultas mensais.  
+- Uso do modelo GPT-4o Mini já é muito barato, mas o RAG local reduz ainda mais os tokens de entrada (de ~14 mil para ~5 mil por pergunta).  
+
+**Redução de custo de API**: cerca de **R$ 1,00 por mês** (ganho marginal, pois o modelo base já é de baixo custo).  
+
+**Economia de tempo do analista**: cerca de **R$ 840 por mês**.  
+- Sem o sistema, cada pergunta demandaria cerca de 10 minutos (ler, selecionar trechos, colar no chat, formatar resposta).  
+- Com o Active IA, a tarefa cai para 1 minuto.  
+- 150 perguntas × 9 minutos economizados = 1.350 minutos (22,5 horas) por mês.  
+- Salário médio de analista (com encargos): R$ 6.000/mês (160h) → R$ 37,50/hora.  
+- Economia: 22,5h × R$ 37,50 = **R$ 843,75/mês**.  
+
+**Produtividade extra**: o analista pode realizar **10 vezes mais análises** no mesmo período, ou liberar horas para outras atividades estratégicas.  
+
+> ⚠️ **Observação**: Os valores são estimativas. O retorno real depende do volume de documentos, da complexidade das perguntas e da eficiência do analista. No entanto, o ROI do projeto é altamente positivo em qualquer cenário realista.
 
 ## 💻 Recursos Computacionais
 
